@@ -1,0 +1,108 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{pawlowski}
+\usepackage{amsmath}
+\usepackage{natbib}
+
+\title{PHY 380 Assignment 7}
+\author{Jeryl Schudel}
+\date{13 November 2025}
+
+\begin{document}
+\maketitle
+\section{Numerical Differentiation Techniques}
+
+\subsection{Central Differencing}
+Numerical differentiation estimates the derivative of a function using a known starting value.
+Using the Taylor expansion around x (forwards and backwards) gives:
+\begin{align}
+f(x+h) = f(x) + h f'(x) + \frac {h^2}{2}f''(x) + \frac{h^3}{6} f'''(x) + ... 
+\label{TFor}\\
+f(x-h) = f(x) - h f'(x) + \frac {h^2}{2}f''(x) - \frac{h^3}{6} f'''(x) + ... 
+\label{TBack}
+\end{align}
+These two equations can be rearranged with only the first two terms included to give:
+\begin{align}
+f'(x) &= \frac {f(x+h) - f(x)}{h}
+\label{Forward}\\
+f'(x) &= \frac {f(x) - f(x-h)}{h}
+\label{Backward}
+\end{align}
+Combining Eq. \ref{Forward} and \ref{Backward} by rearranging both equal to f(x) gives:
+\begin{gather}
+f(x+h) - h f'(x) = f(x-h) + h f'(x) \nonumber \\
+2*f'(x) = \frac {f(x+h) - f(x-h)}{h}
+\label{central}
+\end{gather}
+Eq. \ref{central} simplifies to:
+$$f'(x) = \frac {f(x+h) - f(x-h)}{2h}$$\\
+which is the equation for central differencing.
+
+\subsection{Third Order}
+To find a third order scheme to solve for the first order derivative, use the first four terms in Eq. \ref{TFor} and \ref{TBack}.  The first and third terms will cancel out to give:
+\begin{align}
+f(x+h) - f(x-h) =  2h f'(x) + \frac{h^3}{3} f'''(x) \nonumber \\
+f'(x) = \frac{f(x+h) - f(x-h)}{2h} + \frac{h^2}{6} f'''(x)
+\label{third}
+\end{align}
+The term $\frac{h^2}{6} f'''(x)$ in Eq. \ref{third} is our error term to get a more accurate result.
+
+\section{Electric Potential Grid}
+See Fig \ref{fig:potential} for an example of a contour plot of Potential and vector field of the Electric field caused by 50 charged particles.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{potential.png}
+	\caption{System of 50 charges}
+	\label{fig:potential}
+\end{figure}
+
+\section{Damped Harmonic Oscillator}
+For a system with no damping (Fig. \ref{fig:NoDamp}) the resulting graph showed an increasing wave with a amplitude slowly approaching a limit.  Both the critically damped (Fig. \ref{fig:CritDamp})  and the over damped (Fig. \ref{fig:OverDamp}) systems went to zero. The critically damped system should have reached the steady state zero faster, but the chosen damping for the overdamped system was likely too low to demonstrate the expected results.  Due to the intial velocity being nonzero, there is a slight overshoot in the critically damped system.  Finally, the underdamped system (Fig. \ref{fig:UnderDamp}) decreased more gradually, not reaching zero within the time boundary (t = 20) used.  All damped systems demonstrate a compression by an exponential function.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{HarmonicNoDamp.png}
+	\caption{Harmonic Oscillator with No Damping}
+	\label{fig:NoDamp}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{HarmonicCriticalDamp.png}
+	\caption{Harmonic Oscillator with Critical Damping}
+	\label{fig:CritDamp}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{HarmonicOverDamp.png}
+	\caption{Harmonic Oscillator with Overdamping}
+	\label{fig:OverDamp}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{HarmonicUnderDamp.png}
+	\caption{Harmonic Oscillator with Underdamping}
+	\label{fig:UnderDamp}
+\end{figure}
+
+\section{Cycling Without Drag}
+The equation of motion for a cyclist, while not considering drag is:
+$$\frac{dv}{dt} = \frac{F}{m} $$\\
+Assuming the cyclist is on flat ground, the power output is:
+$$\frac{dv}{dt} = \frac{P}{mv}$$\\
+
+\subsection{Python Modeling of a Cyclist}
+Python was used to plot the velocity of a cyclist over time with the following starting conditions:
+\begin{itemize}
+	\item Initial velocity = 4 m/s
+	\item Cyclist mass = 70 kg
+	\item Initial power = 400 W
+	\item Change in time = 0.1 s
+\end{itemize}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{cyclist.png}
+	\caption{Estimated Power Output of a Cyclist}
+	\label{fig:Cyclist}
+\end{figure}
+Two different methods were used to estimate the solution to the differential equation, the Euler method and the Runge-Kutta method.  The results found (Fig. \ref{fig:Cyclist}) are not realistic, due to the assumptions made to simplify the calculations.  The lack of drag or change in elevation makes this model not very useful for real-world scenarios.
+
+\end{document}
